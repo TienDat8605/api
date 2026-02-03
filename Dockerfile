@@ -1,14 +1,12 @@
-# Use a lightweight Java runtime (Eclipse Temurin is a standard choice)
-FROM eclipse-temurin:21-jdk-alpine
+FROM maven:3.9-eclipse-temurin-21-alpine AS build
+WORKDIR /app
+COPY . .
 
-# Set a working directory inside the container
+RUN mvn clean package -DskipTests
+
+FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 
-# Copy the built jar file into the container
-COPY target/*.jar app.jar
-
-# Expose the port Spring runs on (default is 8080)
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# The command to run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
