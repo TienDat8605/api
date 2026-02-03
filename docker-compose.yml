@@ -1,6 +1,6 @@
 services:
   backend:
-    image: java-api:lastest
+    image: java-api:latest
     restart: always
 
   caddy:
