@@ -1,6 +1,7 @@
 services:
   backend:
-    image: java-api:latest
+    build: .                  # <--- ADDED THIS: Tells Docker to build your code
+    image: java-api:latest    # <--- FIXED TYPO: "lastest" -> "latest"
     restart: always
 
   caddy:
@@ -10,7 +11,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile/etc/caddy/Caddyfile
+      - ./Caddyfile:/etc/caddy/Caddyfile  # <--- FIXED: Added the colon ":"
       - caddy_data:/data
       - caddy_config:/config
 
